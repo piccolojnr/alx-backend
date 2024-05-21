@@ -51,34 +51,27 @@ class Server:
         :return: dict - a dictionary with
         pagination information
         """
-        assert index is None or (isinstance(index, int) and index >= 0)
-        assert isinstance(page_size, int) and page_size > 0
+        data = self.indexed_dataset()
+        assert index is not None and index >= 0 and index <= max(data.keys())
 
-        dataset = self.indexed_dataset()
-        dataset_keys = sorted(dataset.keys())
+        page_data = []
+        data_count = 0
+        next_index = None
+        start = index if index else 0
 
-        if index is None:
-            index = 0
+        for i in range(start, len(data)):
+            if i in data:
+                if data_count < page_size:
+                    page_data.append(data[i])
+                    data_count += 1
+                else:
+                    next_index = i
+                    break
 
-        current_index = index
-        data = []
-        count = 0
-
-        while count < page_size and current_index < len(dataset_keys):
-            key = dataset_keys[current_index]
-            if key in dataset:
-                data.append(dataset[key])
-                count += 1
-            current_index += 1
-
-        if current_index < len(dataset_keys):
-            next_index = current_index
-        else:
-            next_index = None
-
-        return {
+        page_info = {
             "index": index,
             "next_index": next_index,
-            "page_size": page_size,
-            "data": data,
+            "page_size": len(page_data),
+            "data": page_data,
         }
+        return page_info
