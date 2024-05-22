@@ -5,9 +5,15 @@ from base_caching import BaseCaching
 
 
 class LIFOCache(BaseCaching):
-    """"""
+    """
+    LIFOCache defines:
+    - caching system
+    """
 
     def __init__(self):
+        """
+        Initiliaze
+        """
         super().__init__()
         self.stack = []
 
