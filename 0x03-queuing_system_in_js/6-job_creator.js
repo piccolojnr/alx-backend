@@ -1,5 +1,8 @@
+#!/usr/bin/node
+/**
+ * Writing the job creation function
+ */
 import kue from "kue";
-import redis from "redis";
 
 const redisConfig = {
   redis: {
@@ -43,13 +46,5 @@ job.on("failed", () => {
 job.save((err) => {
   if (err) {
     console.error("Error creating job:", err);
-  } else {
-    // Start processing the job
-    console.log("Job saved to the queue");
-    // Ensure to shut down the queue when job processing is complete
-    queue.shutdown(5000, (err) => {
-      console.log("Kue shutdown");
-      process.exit(0); // Exit the script
-    });
   }
 });

@@ -1,3 +1,7 @@
+#!/usr/bin/node
+/**
+ * Writing the job creation function
+ */
 import redis from "redis";
 
 const client = redis.createClient();

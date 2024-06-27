@@ -1,3 +1,7 @@
+#!/usr/bin/node
+/**
+ * redis client
+ */
 import redis from "redis";
 import { promisify } from "util";
 
